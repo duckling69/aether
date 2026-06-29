@@ -1,4 +1,17 @@
-# repo-level ignores
 node_modules/
-
-# Keep existing project-level ignores intact (see web/.gitignore and contracts/.gitignore)
+.next/
+out/
+build/
+dist/
+.DS_Store
+*.pem
+.env
+.env*.local
+.vercel
+*.tsbuildinfo
+artifacts/
+cache/
+ignition/deployments/
+contracts/.env
+contracts/cache/
+contracts/artifacts/

@@ -1,0 +1,9 @@
+{
+  "ArbitrumDeploymentModule#poolImpl": "0x124D841f96aca0633f026552f5b6a82f731eaCAA",
+  "ArbitrumDeploymentModule#ousg": "0x825422622894FfAc56939808A107715d4816e359",
+  "ArbitrumDeploymentModule#usdc": "0xe3611967ea9b4C874Edf99079c30FC4ecb877d20",
+  "ArbitrumDeploymentModule#usdy": "0x7Be8e67f6ff18D47d1A6e28DA14a1008E739D7Db",
+  "ArbitrumDeploymentModule#poolProxy": "0xF4C249E21C7Eb553876F3Ab45C826710106343EF",
+  "ArbitrumDeploymentModule#pool": "0xF4C249E21C7Eb553876F3Ab45C826710106343EF",
+  "ArbitrumDeploymentModule#proxyAdmin": "0xe20F299978A5ae7179DA6a956c5D367Ab7CBF7d0"
+}

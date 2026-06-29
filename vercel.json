@@ -1,7 +1,4 @@
 {
   "rootDirectory": "web",
-  "framework": "nextjs",
-  "buildCommand": "yarn install && yarn build",
-  "devCommand": "yarn dev",
-  "installCommand": "yarn install"
+  "framework": "nextjs"
 }

@@ -65,7 +65,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     currentAccount = readOnlyModeAddress;
   }
 
-  const { data: isContractAddress } = useIsContractAddress(account || '', chainId);
+  // Use app's currentChainId (from market) for contract check, not raw wallet chainId.
+  // Prevents errors/crashes when user's wallet is on an unsupported chain (e.g. 11155111 Sepolia)
+  const { data: isContractAddress } = useIsContractAddress(account || '');
 
   useEffect(() => {
     if (didInit) {

@@ -1,5 +1,5 @@
 import { ChainId } from 'protocol/aave-compat';
-import { arbitrum, arbitrumSepolia, Chain } from 'wagmi/chains';
+import { arbitrum, arbitrumSepolia, Chain, sepolia as wagmiSepolia } from 'wagmi/chains';
 import robinhoodDeployment from './robinhoodDeployment.json';
 import arbitrumSepoliaDeployment from './arbitrumDeployment.json';
 
@@ -73,6 +73,20 @@ export const testnetConfig: Record<string, BaseNetworkConfig> = {
     isTestnet: true,
     networkLogoPath: '/icons/networks/robinhood.svg',
     wagmiChain: robinhoodTestnet,
+  },
+  // Add common testnets with public RPCs to prevent "no jsonRPCUrl" errors when user's wallet is on them (e.g. Ethereum Sepolia)
+  [ChainId.sepolia]: {
+    name: 'Ethereum Sepolia',
+    displayName: 'Sepolia',
+    publicJsonRPCUrl: ['https://ethereum-sepolia.publicnode.com', 'https://rpc.sepolia.org'],
+    baseUniswapAdapter: '0x0',
+    baseAssetSymbol: 'ETH',
+    wrappedBaseAssetSymbol: 'WETH',
+    baseAssetDecimals: 18,
+    explorerLink: 'https://sepolia.etherscan.io',
+    isTestnet: true,
+    networkLogoPath: '/icons/networks/ethereum.svg',
+    wagmiChain: wagmiSepolia,
   },
   [ChainId.arbitrum_sepolia]: {
     name: 'Arbitrum Sepolia',

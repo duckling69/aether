@@ -181,7 +181,12 @@ export const getProvider = (chainId: ChainId): ProviderWithSend => {
         config.publicJsonRPCUrl.map((rpc) => chainProviders.push(rpc));
       }
       if (!chainProviders.length) {
-        throw new Error(`${chainId} has no jsonRPCUrl configured`);
+        // Fallback for common chains like Ethereum Sepolia (11155111) when wallet is on unsupported chain
+        if (chainId === 11155111) {
+          chainProviders.push('https://ethereum-sepolia.publicnode.com');
+        } else {
+          throw new Error(`${chainId} has no jsonRPCUrl configured`);
+        }
       }
       if (chainProviders.length === 1) {
         providers[chainId] = new StaticJsonRpcProvider(chainProviders[0], chainId);

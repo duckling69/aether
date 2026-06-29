@@ -1,7 +1,7 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import dynamic from 'next/dynamic';
 import { ConnectKitProvider } from 'connectkit';
 import { ReactNode, useState } from 'react';
 import { WagmiProvider } from 'wagmi';
@@ -11,6 +11,12 @@ import { LanguageProvider } from '../libs/LanguageProvider';
 import { Web3ContextProvider } from '../libs/web3-data-provider/Web3Provider';
 import { SharedDependenciesProvider } from '../ui-config/SharedDependenciesProvider';
 import { wagmiConfig } from '../ui-config/wagmiConfig';
+
+const ReactQueryDevtools = dynamic(
+  () =>
+    import('@tanstack/react-query-devtools').then((mod) => mod.ReactQueryDevtools),
+  { ssr: false }
+);
 
 export function Providers({ children }: { children: ReactNode }) {
   const [queryClient] = useState(

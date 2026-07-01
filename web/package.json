@@ -77,12 +77,12 @@
     "viem": "2.45.1",
     "wagmi": "^2.15.2",
     "zustand": "^5.0.2",
-    "@tanstack/react-query-devtools": "^5.101.0"
+    "@tanstack/react-query-devtools": "^5.101.0",
+    "@types/node": "^20.14.0"
   },
   "devDependencies": {
     "@lingui/macro": "^4.14.0",
     "@svgr/webpack": "^6.5.1",
-    "@types/node": "^20.14.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "@typescript-eslint/eslint-plugin": "^5.38.1",

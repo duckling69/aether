@@ -47,7 +47,9 @@ yarn install
 yarn dev
 ```
 
-Connect a wallet on Arbitrum Sepolia.
+Connect a wallet on Arbitrum Sepolia (default market).
+
+**Note:** Robinhood testnet market currently has no pool deployed in this setup (pool=0). Use Arbitrum Sepolia for transactions to avoid approval to zero address (which reverts on the test tokens).
 
 ## Configuration
 

@@ -48,18 +48,24 @@ const NETWORK_CONFIG: Record<number, { network: string; apiKey: string }> = {
 
 function getRpcUrl(chainId: number): string | null {
   const config = NETWORK_CONFIG[chainId];
-  if (!config) return null;
-  return `https://${config.network}.g.alchemy.com/v2/${config.apiKey}`;
+  if (config && config.apiKey) {
+    return `https://${config.network}.g.alchemy.com/v2/${config.apiKey}`;
+  }
+  // Fallback public RPCs for our testnets (no alchemy key needed)
+  if (chainId === 421614) return 'https://arbitrum-sepolia.publicnode.com';
+  if (chainId === 11155111) return 'https://ethereum-sepolia.publicnode.com';
+  if (chainId === 46630) return 'https://rpc.testnet.chain.robinhood.com';
+  return null;
 }
 
 export async function POST(request: NextRequest) {
   const origin = request.headers.get('origin');
-  const allowedOrigins = ['http://localhost:3000'];
+  const allowedOrigins = ['http://localhost:3000', 'https://aether-six-beta.vercel.app'];
 
   const isOriginAllowed = (origin: string | null): boolean => {
     if (!origin) return false;
     if (allowedOrigins.includes(origin)) return true;
-    const allowedPatterns = [/^https:\/\/.*avaraxyz\.vercel\.app$/];
+    const allowedPatterns = [/^https:\/\/.*avaraxyz\.vercel\.app$/, /^https:\/\/aether-.*\.vercel\.app$/];
     return allowedPatterns.some((pattern) => pattern.test(origin));
   };
 

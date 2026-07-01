@@ -647,9 +647,9 @@ export const markets = async (_client: any, args?: any): Promise<any> => {
       const totalBorrowed = Number(normalizeLocal(r.totalBorrowed, r.decimals));
       const availableLiquidity = Number(normalizeLocal(r.availableLiquidity, r.decimals));
       const underlyingAddress = r.asset;
-      const ltv = Number(r.ltv);
-      const liquidationThreshold = Number(r.liquidationThreshold);
-      const liquidationBonus = Number(r.liquidationBonus);
+      const ltv = Number(r.ltv) / 10000;
+      const liquidationThreshold = Number(r.liquidationThreshold) / 10000;
+      const liquidationBonus = Number(r.liquidationBonus) / 10000;
       const totalUsd = totalSupplied * priceUsd;
       return {
         id: reserveId(underlyingAddress),

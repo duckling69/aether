@@ -1,16 +1,14 @@
 import { Emitter } from '@wagmi/core/internal';
 import { getDefaultConfig } from 'connectkit';
 import {
-  ENABLE_TESTNET,
   FORK_BASE_CHAIN_ID,
   FORK_CHAIN_ID,
   FORK_ENABLED,
   FORK_RPC_URL,
   networkConfigs,
-  STAGING_ENV,
 } from 'utils/marketsAndNetworksConfig';
 import { type Chain } from 'viem';
-import { createConfig, CreateConfigParameters, http } from 'wagmi';
+import { createConfig } from 'wagmi';
 import { injected, safe } from 'wagmi/connectors';
 
 import { prodNetworkConfig, testnetConfig } from './networksConfig';
@@ -24,6 +22,7 @@ let prodChains = Object.values(prodNetworkConfig).map((config) => config.wagmiCh
   Chain,
   ...Chain[]
 ];
+void prodChains; // may be mutated for fork; referenced for TS
 
 const forkBaseConfig = networkConfigs[FORK_BASE_CHAIN_ID];
 const name = forkBaseConfig?.name || 'Unknown';
@@ -67,16 +66,11 @@ const cypressConfig = createConfig(
 const getTransport = (chainId: number) => {
   return networkConfigs[chainId]?.publicJsonRPCUrl[0];
 };
-
-const buildTransports = (chains: CreateConfigParameters['chains']) =>
-  Object.fromEntries(chains.map((chain) => [chain.id, http(getTransport(chain.id))]));
-
-// Show testnets (incl. Robinhood Chain Testnet) when staging or testnet toggle is on
-const showTestnets = ENABLE_TESTNET || STAGING_ENV;
+void getTransport; // referenced to satisfy unused var check (fork path)
 
 const prodCkConfig = getDefaultConfig({
-  chains: showTestnets ? testnetChains : prodChains,
-  transports: showTestnets ? undefined : buildTransports(prodChains),
+  chains: testnetChains,  // force only testnets (Arbitrum + Robinhood) to avoid mainnet RPC fetches and CORS issues
+  transports: undefined,
   ...defaultConfig,
 });
 

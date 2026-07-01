@@ -22,7 +22,7 @@ export class ServerJsonRpcProvider extends StaticJsonRpcProvider {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async send<P = any, R = any>(method: string, params: Array<P>): Promise<R> {
-    const apiUrl = '/api/rpc-proxy/';
+    const apiUrl = '/api/rpc';
 
     try {
       const response = await fetch(apiUrl, {

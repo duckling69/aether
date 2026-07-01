@@ -8,10 +8,35 @@ import {
   networkConfigs,
 } from 'utils/marketsAndNetworksConfig';
 import { type Chain } from 'viem';
-import { createConfig } from 'wagmi';
+import { createConfig, http, type Transport } from 'wagmi';
 import { injected, safe } from 'wagmi/connectors';
 
 import { prodNetworkConfig, testnetConfig } from './networksConfig';
+
+// Neutralize viem's built-in mainnet definition (and any vendored copies) at module evaluation time.
+// viem/chains/definitions/mainnet hardcodes https://eth.merkle.io as default RPC (the source of the CORS errors).
+// We force only testnet chains + explicit transports, plus this defensive override.
+try {
+  import('viem/chains').then((mod: any) => {
+    const m = mod?.mainnet || mod?.default?.mainnet;
+    if (m && m.rpcUrls) {
+      m.rpcUrls = {
+        default: { http: ['https://arbitrum-sepolia.publicnode.com'] },
+        public: { http: ['https://arbitrum-sepolia.publicnode.com'] },
+      };
+    }
+  }).catch(() => {});
+  // Safe SDK vendors its own viem copy which also contains mainnet with merkle RPC.
+  const safeViemChainsPath = '@safe-global/safe-apps-sdk/node_modules/viem/chains';
+  import(/* webpackIgnore: true */ safeViemChainsPath as any)
+    .then((mod: any) => {
+      const m = mod?.mainnet;
+      if (m && m.rpcUrls) {
+        m.rpcUrls = { default: { http: ['https://arbitrum-sepolia.publicnode.com'] } };
+      }
+    })
+    .catch(() => {});
+} catch {}
 
 const testnetChains = Object.values(testnetConfig).map((config) => config.wagmiChain) as [
   Chain,
@@ -63,14 +88,20 @@ const cypressConfig = createConfig(
   })
 );
 
-const getTransport = (chainId: number) => {
-  return networkConfigs[chainId]?.publicJsonRPCUrl[0];
+const getTransportUrl = (chainId: number) => {
+  return networkConfigs[chainId]?.publicJsonRPCUrl[0] || 'https://arbitrum-sepolia.publicnode.com';
 };
-void getTransport; // referenced to satisfy unused var check (fork path)
+void getTransportUrl;
+
+// Build explicit transports for ONLY our testnet chains.
+// This prevents viem/wagmi from ever falling back to chain definitions (like mainnet's https://eth.merkle.io).
+const testnetTransports: Record<number, Transport> = Object.fromEntries(
+  testnetChains.map((chain) => [chain.id, http(getTransportUrl(chain.id))])
+);
 
 const prodCkConfig = getDefaultConfig({
-  chains: testnetChains,  // force only testnets (Arbitrum + Robinhood) to avoid mainnet RPC fetches and CORS issues
-  transports: undefined,
+  chains: testnetChains,  // force ONLY testnets (Arbitrum Sepolia + Robinhood) to avoid mainnet RPC fetches and CORS issues
+  transports: testnetTransports,
   ...defaultConfig,
 });
 

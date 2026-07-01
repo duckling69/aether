@@ -55,6 +55,11 @@ Deployment addresses are in `web/ui-config/arbitrumDeployment.json` and `contrac
 
 Update after new deployments using the sync scripts.
 
+## Faucets
+
+- Robinhood Testnet (ETH + tokens): https://faucet.testnet.chain.robinhood.com/
+- Arbitrum Sepolia: https://faucet.quicknode.com/arbitrum/sepolia (or other public faucets)
+
 ## License
 
 MIT

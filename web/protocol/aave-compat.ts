@@ -209,9 +209,9 @@ export const WalletBalanceProvider = class {
   constructor(args?: { walletBalanceProviderAddress?: string; provider?: any; chainId?: number }) {
     this.provider = args?.provider || getFallbackProvider();
     const cid = args?.chainId;
-    if (cid === ChainId.robinhood_testnet || (!cid && getDeployment()?.chainId !== ChainId.arbitrum_sepolia)) {
-      setDeployment(robinhoodDeployment);
-    } else if (cid === ChainId.arbitrum_sepolia) {
+    if (cid === ChainId.arbitrum_sepolia || (!cid && getDeployment()?.chainId !== ChainId.robinhood_testnet)) {
+      setDeployment(arbitrumDeployment);
+    } else if (cid === ChainId.robinhood_testnet) {
       setDeployment(arbitrumDeployment);
     }
   }
@@ -257,9 +257,9 @@ export const UiPoolDataProvider = class {
   constructor(args?: { uiPoolDataProviderAddress?: string; provider?: any; chainId?: number }) {
     this.provider = args?.provider || getFallbackProvider();
     const cid = args?.chainId;
-    if (cid === ChainId.robinhood_testnet || (!cid && getDeployment()?.chainId !== ChainId.arbitrum_sepolia)) {
-      setDeployment(robinhoodDeployment);
-    } else if (cid === ChainId.arbitrum_sepolia) {
+    if (cid === ChainId.arbitrum_sepolia || (!cid && getDeployment()?.chainId !== ChainId.robinhood_testnet)) {
+      setDeployment(arbitrumDeployment);
+    } else if (cid === ChainId.robinhood_testnet) {
       setDeployment(arbitrumDeployment);
     }
   }
@@ -627,10 +627,10 @@ export const markets = async (_client: any, args?: any): Promise<any> => {
     const user: string | undefined = args?.user;
     const chainIds: number[] | undefined = args?.chainIds;
     const targetChain = chainIds?.[0];
-    if (targetChain === ChainId.robinhood_testnet) {
-      setDeployment(robinhoodDeployment);
-    } else if (targetChain === ChainId.arbitrum_sepolia) {
+    if (targetChain === ChainId.arbitrum_sepolia) {
       setDeployment(arbitrumDeployment);
+    } else if (targetChain === ChainId.robinhood_testnet) {
+      setDeployment(robinhoodDeployment);
     }
     const [reserves, userAccountData] = await Promise.all([
       fetchRwaReserves().catch(() =>

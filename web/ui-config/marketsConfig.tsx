@@ -59,23 +59,23 @@ export enum CustomMarket {
 export const marketsData: {
   [_key in keyof typeof CustomMarket]: MarketDataType;
 } = {
-  [CustomMarket.proto_robinhood_rwa]: {
-    marketTitle: 'Robinhood',
-    market: CustomMarket.proto_robinhood_rwa,
-    chainId: ChainId.robinhood_testnet,
+  [CustomMarket.proto_arbitrum_sepolia]: {
+    marketTitle: 'Arbitrum RWA',
+    market: CustomMarket.proto_arbitrum_sepolia,
+    chainId: ChainId.arbitrum_sepolia,
     v3: true,
-    logo: '/icons/markets/robinhood.png',
+    logo: '/icons/networks/arbitrum.svg',
     permitDisabled: true,
     enabledFeatures: {},
     addresses: {
-      LENDING_POOL_ADDRESS_PROVIDER: RWA_POOL_ADDRESS,
-      LENDING_POOL: RWA_POOL_ADDRESS,
-      WALLET_BALANCE_PROVIDER: RWA_POOL_ADDRESS,
-      UI_POOL_DATA_PROVIDER: RWA_POOL_ADDRESS,
+      LENDING_POOL_ADDRESS_PROVIDER: ARBITRUM_POOL_ADDRESS,
+      LENDING_POOL: ARBITRUM_POOL_ADDRESS,
+      WALLET_BALANCE_PROVIDER: ARBITRUM_POOL_ADDRESS,
+      UI_POOL_DATA_PROVIDER: ARBITRUM_POOL_ADDRESS,
       UI_INCENTIVE_DATA_PROVIDER: '0x0000000000000000000000000000000000000000',
     },
   },
-  [CustomMarket.proto_arbitrum_sepolia]: {
+  [CustomMarket.proto_robinhood_rwa]: {
     marketTitle: 'Arbitrum RWA',
     market: CustomMarket.proto_arbitrum_sepolia,
     chainId: ChainId.arbitrum_sepolia,
